@@ -1,0 +1,34 @@
+{
+  "name": "keg-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "serve": "node dist/server.js",
+    "start": "npm run serve",
+    "watch-node": "nodemon dist/server.js",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "nedb": "^1.8.0",
+    "nedb-promises": "^4.0.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.0.1",
+    "@types/errorhandler": "0.0.32",
+    "@types/express": "^4.17.1",
+    "@types/nedb": "^1.8.8",
+    "@types/uuid": "^3.4.5",
+    "concurrently": "^4.1.2",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.3"
+  }
+}
