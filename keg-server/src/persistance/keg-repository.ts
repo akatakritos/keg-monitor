@@ -1,6 +1,6 @@
 import Datastore from 'nedb-promises';
 import uuid from 'uuid';
-import { Tap } from '..//controllers/beer-controller';
+import { Tap } from '../controllers/keg-controller';
 
 const kegs = Datastore.create({ filename: 'data/kegs.db' });
 
