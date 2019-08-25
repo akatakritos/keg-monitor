@@ -1,16 +1,9 @@
 import { Request, Response } from 'express';
-import { Beer } from './beer-controller';
-import { database } from '..//persistance/database';
-import { KegLog } from '..//persistance/keg-repository';
-
-export type Tap = 'left' | 'right';
-
-export interface Tapped extends KegLog {
-  beer: Beer;
-}
+import { database } from '../persistance/database';
+import { Tapped, Beer, Tap } from '../models';
 
 export async function tap(req: Request, res: Response) {
-  const tap = req.params.tap;
+  const tap = req.params.tap as Tap;
   const beerId = req.body.beerId;
   const log = await database.kegs.tapKeg(tap, beerId);
   const beer = await database.beers.get(log.beerId);
@@ -24,7 +17,7 @@ export async function tap(req: Request, res: Response) {
 }
 
 export async function markEmpty(req: Request, res: Response) {
-  const tap = req.params.tap;
+  const tap = req.params.tap as Tap;
 
   const log = await database.kegs.markTapEmpty(tap);
   const beer = await database.beers.get(log.beerId);

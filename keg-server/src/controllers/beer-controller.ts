@@ -1,18 +1,7 @@
 import { Request, Response } from 'express';
 
-export interface Beer {
-  _id: string;
-  name: string;
-  brewer: string;
-  image: string;
-  bitterness: number;
-  abv: number;
-  style: string;
-  upvotes: number;
-  downvotes: number;
-}
-
 import { database } from '../persistance/database';
+import { Beer } from '../models';
 
 export async function beers(req: Request, res: Response) {
   const beers = await database.beers.getAll();

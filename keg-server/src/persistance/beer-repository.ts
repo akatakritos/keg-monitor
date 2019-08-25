@@ -1,6 +1,6 @@
-import { Beer } from '../controllers/beer-controller';
 import Datastore from 'nedb-promises';
 import uuid from 'uuid';
+import { Beer } from '../models';
 
 const beers = Datastore.create({ filename: 'data/beers.db' });
 

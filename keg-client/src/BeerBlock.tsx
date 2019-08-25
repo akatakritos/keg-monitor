@@ -10,7 +10,7 @@ import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import CardActions from '@material-ui/core/CardActions';
 import clsx from 'clsx';
-import parse from 'date-fns/parse';
+import parseISO from 'date-fns/parseISO';
 import differenceInDays from 'date-fns/differenceInDays';
 
 const useStyles = makeStyles(theme => ({
@@ -43,10 +43,10 @@ export interface BeerProps {
   tapped: string;
 }
 
-export function Beer(props: BeerProps) {
+export function BeerBlock(props: BeerProps) {
   const classes = useStyles();
   const today = new Date();
-  const tapped = parse(props.tapped, 'yyyy-MM-dd', new Date());
+  const tapped = parseISO(props.tapped);
   const age = differenceInDays(today, tapped);
 
   return (
@@ -73,16 +73,24 @@ export function Beer(props: BeerProps) {
           {props.description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" color="primary" variant="contained" className={classes.button}>
-          <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
-          Great!
-        </Button>
-        <Button size="small" color="secondary" variant="contained" className={classes.button}>
-          <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
-          Meh.
-        </Button>
-      </CardActions>
+      <CardActions></CardActions>
     </Card>
+  );
+}
+
+function VoteButtons() {
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <Button size="small" color="primary" variant="contained" className={classes.button}>
+        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
+        Great!
+      </Button>
+      <Button size="small" color="secondary" variant="contained" className={classes.button}>
+        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
+        Meh.
+      </Button>
+    </React.Fragment>
   );
 }

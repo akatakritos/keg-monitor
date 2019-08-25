@@ -1,17 +1,8 @@
 import Datastore from 'nedb-promises';
 import uuid from 'uuid';
-import { Tap } from '../controllers/keg-controller';
+import { KegLog, Tap } from '../models';
 
 const kegs = Datastore.create({ filename: 'data/kegs.db' });
-
-export interface KegLog {
-  _id: string;
-  tap: Tap;
-  tapped: Date;
-  emptied?: Date;
-  beerId: string;
-  isCurrent: boolean;
-}
 
 export class KegRepository {
   open() {
