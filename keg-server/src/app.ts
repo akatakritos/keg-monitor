@@ -6,9 +6,9 @@ import path from 'path';
 import io from 'socket.io';
 
 // Controllers (route handlers)
-import * as beerController from './controllers/beer-controller';
-import * as kegController from './controllers/keg-controller';
-import * as temperatureController from './controllers/temperature-controller';
+import * as beerController from './controllers/BeerController';
+import * as kegController from './controllers/KegController';
+import * as temperatureController from './controllers/TemperatureController';
 
 // Create Express server
 const app = express();

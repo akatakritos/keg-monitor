@@ -1,8 +1,21 @@
 import Datastore from 'nedb-promises';
 import uuid from 'uuid';
 import { Beer } from '../models';
+import { childLogger } from '../lib/Logger';
+const logger = childLogger('db');
+
+function createLogger(ds: Datastore, op: string) {
+  ds.on(op, (ds, result, query) => {
+    logger.debug('beers.' + op, query);
+  });
+}
 
 const beers = Datastore.create({ filename: 'data/beers.db' });
+createLogger(beers, 'find');
+createLogger(beers, 'findOne');
+createLogger(beers, 'insert');
+createLogger(beers, 'remove');
+createLogger(beers, 'update');
 
 export class BeerRepository {
   open() {

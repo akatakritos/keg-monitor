@@ -1,8 +1,21 @@
 import Datastore from 'nedb-promises';
 import uuid from 'uuid';
 import { KegLog, Tap } from '../models';
+import { childLogger } from '../lib/Logger';
+const logger = childLogger('db');
 
 const kegs = Datastore.create({ filename: 'data/kegs.db' });
+function createLogger(ds: Datastore, op: string) {
+  ds.on(op, (ds, result, query) => {
+    logger.debug('kegs.' + op, query);
+  });
+}
+
+createLogger(kegs, 'find');
+createLogger(kegs, 'findOne');
+createLogger(kegs, 'insert');
+createLogger(kegs, 'remove');
+createLogger(kegs, 'update');
 
 export class KegRepository {
   open() {

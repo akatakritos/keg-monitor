@@ -1,5 +1,5 @@
-import { BeerRepository } from './beer-repository';
-import { KegRepository } from './keg-repository';
+import { BeerRepository } from './BeerRepository';
+import { KegRepository } from './KegRepository';
 
 export const database = {
   beers: new BeerRepository(),

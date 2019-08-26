@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { database } from '../persistance/database';
+import { database } from '../persistance/Database';
 import { Tapped, Beer, Tap } from '../models';
 
 export async function tap(req: Request, res: Response) {
