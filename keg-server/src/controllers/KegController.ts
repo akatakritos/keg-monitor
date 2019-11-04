@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { database } from '../persistance/Database';
 import { Tapped, Beer, Tap } from '../models';
+import { SocketServer } from '../lib/SocketServer';
 
 export async function tap(req: Request, res: Response) {
   const tap = req.params.tap as Tap;
@@ -13,6 +14,7 @@ export async function tap(req: Request, res: Response) {
     ...log,
   };
 
+  SocketServer.emitRefresh();
   return res.send(result);
 }
 
@@ -27,6 +29,7 @@ export async function markEmpty(req: Request, res: Response) {
     ...log,
   };
 
+  SocketServer.emitRefresh();
   return res.send(result);
 }
 

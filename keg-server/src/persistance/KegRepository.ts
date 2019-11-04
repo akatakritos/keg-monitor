@@ -6,8 +6,8 @@ const logger = childLogger('db');
 
 const kegs = Datastore.create({ filename: 'data/kegs.db' });
 function createLogger(ds: Datastore, op: string) {
-  ds.on(op, (ds, result, query) => {
-    logger.debug('kegs.' + op, query);
+  ds.on(op, (ds, result, query, update) => {
+    logger.debug('kegs.' + op, query, update);
   });
 }
 

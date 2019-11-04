@@ -1,17 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
 import CardActions from '@material-ui/core/CardActions';
-import clsx from 'clsx';
 import parseISO from 'date-fns/parseISO';
 import differenceInDays from 'date-fns/differenceInDays';
+import './BeerBlock.css';
 
 const useStyles = makeStyles(theme => ({
   card: {},
@@ -41,6 +38,7 @@ export interface BeerProps {
   abv: number;
   beerStyle: string;
   tapped: string;
+  emptied?: string;
 }
 
 export function BeerBlock(props: BeerProps) {
@@ -50,9 +48,10 @@ export function BeerBlock(props: BeerProps) {
   const age = differenceInDays(today, tapped);
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} style={{ position: 'relative' }}>
+      {props.emptied ? <EmptyOverlay /> : null}
       <div className={classes.centered}>
-        <img src={props.image} height="220" />
+        <img src={props.image} alt={props.name} className="beer-block__image" />
       </div>
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
@@ -63,34 +62,43 @@ export function BeerBlock(props: BeerProps) {
         </Typography>
         <div>
           {props.beerStyle ? <Chip icon={<Icon>local_drink</Icon>} label={props.beerStyle} /> : null}
-          {props.abv ? <Chip icon={<Icon>sentiment_satisfied</Icon>} label={props.abv.toFixed(1) + '% ABV'} /> : null}
-          {props.bitterness ? (
-            <Chip icon={<Icon>sentiment_dissatisfied</Icon>} label={props.bitterness.toFixed(1) + ' BTU'} />
+          {props.abv ? (
+            <Chip icon={<Icon>sentiment_very_satisfied</Icon>} label={props.abv.toFixed(1) + '% ABV'} />
           ) : null}
+          {props.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={props.bitterness.toFixed(1) + ' BTU'} /> : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
         </div>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {props.description}
-        </Typography>
       </CardContent>
       <CardActions></CardActions>
     </Card>
   );
 }
 
-function VoteButtons() {
-  const classes = useStyles();
-
+function EmptyOverlay() {
   return (
-    <React.Fragment>
-      <Button size="small" color="primary" variant="contained" className={classes.button}>
-        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
-        Great!
-      </Button>
-      <Button size="small" color="secondary" variant="contained" className={classes.button}>
-        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
-        Meh.
-      </Button>
-    </React.Fragment>
+    <div className="empty-overlay">
+      <div className="empty-overlay__text">
+        All Gone
+        <br />
+        <Icon className="empty-overlay__icon">sentiment_very_dissatisfied</Icon>
+      </div>
+    </div>
   );
 }
+
+// function VoteButtons() {
+//   const classes = useStyles();
+
+//   return (
+//     <React.Fragment>
+//       <Button size="small" color="primary" variant="contained" className={classes.button}>
+//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
+//         Great!
+//       </Button>
+//       <Button size="small" color="secondary" variant="contained" className={classes.button}>
+//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
+//         Meh.
+//       </Button>
+//     </React.Fragment>
+//   );
+// }

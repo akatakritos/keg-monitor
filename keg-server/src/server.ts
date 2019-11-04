@@ -4,6 +4,7 @@ import ioFactory from 'socket.io';
 import app from './app';
 import { monitor } from './lib/PlatformMonitor';
 import { logger } from './lib/Logger';
+import { SocketServer } from './lib/SocketServer';
 
 /**
  * Error Handler. Provides full stack - remove for production
@@ -19,11 +20,10 @@ const server = app.listen(app.get('port'), () => {
   // console.log('  Press CTRL-C to stop\n');
 });
 
-const io = ioFactory(server);
+SocketServer.io = ioFactory(server);
 
 monitor.onTemperature((temperature: number) => {
-  logger.debug('emit %d on socket.io', temperature);
-  io.emit('temp', { temperature });
+  SocketServer.emitTemp(temperature);
 });
 
 monitor.start();

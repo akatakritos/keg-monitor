@@ -1,0 +1,11 @@
+div.admin-control {
+  margin-bottom: 1em;
+}
+
+button.admin-action-button {
+  margin-right: 1em;
+}
+
+.MuiFormControl-root.admin-select {
+  min-width: 250px;
+}

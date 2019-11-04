@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   transports.push(
     new DailyRotateFile({
       filename: path.join(logFolder, 'log'),
-      datePattern: 'yyyy-MM-dd.',
+      datePattern: 'YYYY-MM-DD-HH',
       level: 'verbose',
       format: winston.format.combine(winston.format.splat(), childName(), winston.format.simple()),
     })

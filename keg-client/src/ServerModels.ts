@@ -6,8 +6,8 @@ export interface Beer {
   bitterness: number;
   abv: number;
   style: string;
-  upvotes: number;
-  downvotes: number;
+  upvotes?: number;
+  downvotes?: number;
   description: string;
 }
 export type Tap = 'left' | 'right';
@@ -23,4 +23,10 @@ export interface KegLog {
   emptied?: string;
   beerId: string;
   isCurrent: boolean;
+}
+
+export type TapDescription = [Tapped | null, Tapped | null];
+
+export interface Metadata {
+  ip: string;
 }

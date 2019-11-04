@@ -9,6 +9,7 @@ import io from 'socket.io';
 import * as beerController from './controllers/BeerController';
 import * as kegController from './controllers/KegController';
 import * as temperatureController from './controllers/TemperatureController';
+import * as metadataController from './controllers/MetadataController';
 
 // Create Express server
 const app = express();
@@ -20,8 +21,6 @@ app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
  * Primary app routes.
@@ -40,5 +39,9 @@ app.put('/api/taps/:tap', kegController.tap);
 app.get('/api/taps-log', kegController.getLog);
 
 app.get('/api/temp', temperatureController.getTemperature);
+app.get('/api/metadata', metadataController.getMetadata);
+
+app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: 31557600000 }));
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
 
 export default app;

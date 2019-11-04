@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { database } from '../persistance/Database';
 import { Beer } from '../models';
 import { childLogger } from '../lib/Logger';
+import { SocketServer } from '../lib/SocketServer';
 
 const logger = childLogger('BeerController');
 
@@ -20,6 +21,7 @@ export async function createBeer(req: Request, res: Response) {
 
   const result = await database.beers.insert(beer);
   logger.info('beer "%s" (%s) created', result.name, result._id);
+  SocketServer.emitRefresh();
 
   return res.send(result);
 }
@@ -29,6 +31,7 @@ export async function patchBeer(req: Request, res: Response) {
   await database.beers.patch(id, req.body);
   const updated = await database.beers.get(id);
   logger.info('beer "%s" (%s) patched', updated.name, updated._id);
+  SocketServer.emitRefresh();
 
   return res.send(updated);
 }
@@ -37,6 +40,7 @@ export async function upvote(req: Request, res: Response) {
   const id = req.params.id;
   const updated = await database.beers.upvote(id);
   logger.info('beer %s upvoted', id);
+  SocketServer.emitRefresh();
 
   return res.send(updated);
 }
@@ -44,6 +48,7 @@ export async function downvote(req: Request, res: Response) {
   const id = req.params.id;
   const updated = await database.beers.downvote(id);
   logger.info('beer %s downvoted', id);
+  SocketServer.emitRefresh();
 
   return res.send(updated);
 }
@@ -52,6 +57,7 @@ export async function remove(req: Request, res: Response) {
   const id = req.params.id;
   await database.beers.delete(id);
   logger.info('beer %s deleted', id);
+  SocketServer.emitRefresh();
 
   return res.status(200).send();
 }

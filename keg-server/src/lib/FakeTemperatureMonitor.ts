@@ -13,7 +13,7 @@ export class FakeTemperatureMonitor implements TemperatureMonitor {
   start() {
     logger.info('started polling');
     this.token = setInterval(() => {
-      this._current = 40 + Math.random() * 5;
+      this._current = 35 + Math.random() * 15;
       this.emitter.emit('temp', this._current);
     }, 5000);
   }
