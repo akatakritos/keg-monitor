@@ -6,7 +6,15 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Beer, Tap, TapDescription, Tapped } from '../ServerModels';
 import { markTapEmpty, getTaps, tapKeg as tapKegApi } from '../lib/ApiClient';
-import { TapMaintenancePanelProps } from './TapMaintenancePanel';
+
+export interface TapMaintenancePanelState {
+  id?: string;
+  taps: TapDescription;
+}
+
+export interface TapMaintenancePanelProps {
+  beers: Beer[];
+}
 
 function describeTap(tap: Tapped | null) {
   if (!tap) {

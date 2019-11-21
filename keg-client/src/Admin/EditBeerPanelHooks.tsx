@@ -8,7 +8,23 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Icon from '@material-ui/core/Icon';
-import { EditBeerPanelProps } from './EditBeerPanel';
+
+export interface EditBeerPanelState {
+  id?: string;
+  name: string;
+  brewer: string;
+  image: string;
+  bitterness: string;
+  abv: string;
+  style: string;
+  description: string;
+}
+
+export interface EditBeerPanelProps {
+  beers: Beer[];
+  onBeerModified: () => void;
+}
+
 
 const emptyBeer = { name: '', brewer: '', image: '', bitterness: 0, abv: 0, style: '', description: '' };
 export function EditBeerPanelHooks(props: EditBeerPanelProps) {
@@ -74,14 +90,6 @@ export function EditBeerPanelHooks(props: EditBeerPanelProps) {
     props.onBeerModified();
   };
 
-  const handleChange = useCallback((value: string, field: string) => {
-    dispatch({type: 'field change', payload: {field, value}})
-  }, [dispatch])
-
-  const handleFieldChange = useMemo(() => {
-    return (key: string) => (event: React.SyntheticEvent) => handleChange(event.target.value, key)
-  }, [handleChange])
-
   return (
     <div>
       <div>
@@ -103,7 +111,7 @@ export function EditBeerPanelHooks(props: EditBeerPanelProps) {
         fullWidth
         className="admin-control"
         value={name}
-        onChange={handleFieldChange('name')}
+        onChange={e => setName(e.target.value)}
       />
       <TextField
         label="Brewer"
