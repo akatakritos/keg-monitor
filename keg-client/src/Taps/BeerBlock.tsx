@@ -65,7 +65,7 @@ export function BeerBlock(props: BeerProps) {
           {props.abv ? (
             <Chip icon={<Icon>sentiment_very_satisfied</Icon>} label={props.abv.toFixed(1) + '% ABV'} />
           ) : null}
-          {props.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={props.bitterness.toFixed(1) + ' BTU'} /> : null}
+          {props.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={props.bitterness.toFixed(1) + ' IBU'} /> : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
         </div>
       </CardContent>

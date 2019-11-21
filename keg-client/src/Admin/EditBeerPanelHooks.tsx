@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useReducer, useMemo } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Beer } from '../ServerModels';
@@ -12,6 +12,7 @@ import { EditBeerPanelProps } from './EditBeerPanel';
 
 const emptyBeer = { name: '', brewer: '', image: '', bitterness: 0, abv: 0, style: '', description: '' };
 export function EditBeerPanelHooks(props: EditBeerPanelProps) {
+  useReducer
   const [id, setId] = useState('new');
   const [name, setName] = useState('');
   const [brewer, setBrewer] = useState('');
@@ -73,6 +74,14 @@ export function EditBeerPanelHooks(props: EditBeerPanelProps) {
     props.onBeerModified();
   };
 
+  const handleChange = useCallback((value: string, field: string) => {
+    dispatch({type: 'field change', payload: {field, value}})
+  }, [dispatch])
+
+  const handleFieldChange = useMemo(() => {
+    return (key: string) => (event: React.SyntheticEvent) => handleChange(event.target.value, key)
+  }, [handleChange])
+
   return (
     <div>
       <div>
@@ -94,7 +103,7 @@ export function EditBeerPanelHooks(props: EditBeerPanelProps) {
         fullWidth
         className="admin-control"
         value={name}
-        onChange={event => setName(event.target.value)}
+        onChange={handleFieldChange('name')}
       />
       <TextField
         label="Brewer"

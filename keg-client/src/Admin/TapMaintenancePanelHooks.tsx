@@ -20,8 +20,8 @@ function describeTap(tap: Tapped | null) {
   return tap.beer.name;
 }
 
-export function TapMaintenancePanelHooks(props: TapMaintenancePanelProps) {
-  const [leftTap, setLeftTap] = useState(null as Tapped | null);
+export const TapMaintenancePanelHooks: React.FC<TapMaintenancePanelProps> = props => {
+  const [leftTap, setLeftTap] = useState<Tapped | null>(null);
   const [rightTap, setRightTap] = useState(null as Tapped | null);
   const [id, setId] = useState('');
 
@@ -94,4 +94,4 @@ export function TapMaintenancePanelHooks(props: TapMaintenancePanelProps) {
       </div>
     </div>
   );
-}
+};

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Container from '@material-ui/core/Container';
 
 import './AdminPage.css';
@@ -49,18 +49,18 @@ export class AdminPage extends React.Component<any, AdminPageState> {
 export function AdminPageHook(props: any) {
   const [beers, setBeers] = useState([] as Beer[]);
 
-  async function fetchBeers() {
+  const fetchBeers = useCallback(async () => {
     const beers = await getBeers();
     setBeers(beers);
-  }
+  }, [setBeers]);
 
   useEffect(() => {
     fetchBeers();
   }, []);
 
-  function handleBeerModified() {
+  const handleBeerModified = useCallback(() => {
     fetchBeers();
-  }
+  }, [fetchBeers]);
 
   return (
     <Container>
