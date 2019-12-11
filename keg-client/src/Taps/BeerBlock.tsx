@@ -114,7 +114,7 @@ function DetailDialog(props: DetailDialogProps) {
       </DialogTitle>
       <DialogContent>
         <Typography variant="body1" component="p" gutterBottom>
-          {beer.description ? beer.description : "No Description Provided."}
+          {beer.description || "No Description Provided."}
         </Typography>
       </DialogContent>
       <DialogActions>
