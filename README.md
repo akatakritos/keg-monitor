@@ -17,7 +17,8 @@ This little application is made from two projects:
 
 Inside of the `keg-server` folder, run `npm run watch`. This will watch the
 directory for changes, recompile the typescript, and restart the express serer
-when anything changes.
+when anything changes. (Note: You may need to start the server from an 
+elevated command prompt to avoid write permission issues.)
 
 The routes are listed in `app.ts`.
 
