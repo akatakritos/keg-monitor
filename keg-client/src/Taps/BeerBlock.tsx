@@ -1,11 +1,17 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Beer } from '../ServerModels';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
-import Icon from '@material-ui/core/Icon';
 import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Chip from '@material-ui/core/Chip';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
 import parseISO from 'date-fns/parseISO';
 import differenceInDays from 'date-fns/differenceInDays';
 import './BeerBlock.css';
@@ -30,13 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export interface BeerProps {
-  image: string;
-  name: string;
-  brewer: string;
-  description: string;
-  bitterness: number;
-  abv: number;
-  beerStyle: string;
+  beer: Beer;
   tapped: string;
   emptied?: string;
 }
@@ -46,26 +46,37 @@ export function BeerBlock(props: BeerProps) {
   const today = new Date();
   const tapped = parseISO(props.tapped);
   const age = differenceInDays(today, tapped);
+  const beer = props.beer;
+  const [isDialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
 
   return (
     <Card className={classes.card} style={{ position: 'relative' }}>
       {props.emptied ? <EmptyOverlay /> : null}
       <div className={classes.centered}>
-        <img src={props.image} alt={props.name} className="beer-block__image" />
+        <img src={beer.image} alt={beer.name} className="beer-block__image" onClick={handleDialogOpen} />
       </div>
+      <DetailDialog beer={beer} isOpen={isDialogOpen} onClose={handleDialogClose} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
-          {props.name}
+          {beer.name}
         </Typography>
         <Typography variant="body2" component="p">
-          {props.brewer}
+          {beer.brewer}
         </Typography>
         <div>
-          {props.beerStyle ? <Chip icon={<Icon>local_drink</Icon>} label={props.beerStyle} /> : null}
-          {props.abv ? (
-            <Chip icon={<Icon>sentiment_very_satisfied</Icon>} label={props.abv.toFixed(1) + '% ABV'} />
+          {beer.style ? <Chip icon={<Icon>local_drink</Icon>} label={beer.style} /> : null}
+          {beer.abv ? (
+            <Chip icon={<Icon>sentiment_very_satisfied</Icon>} label={beer.abv.toFixed(1) + '% ABV'} />
           ) : null}
-          {props.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={props.bitterness.toFixed(1) + ' IBU'} /> : null}
+          {beer.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={beer.bitterness.toFixed(1) + ' IBU'} /> : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
         </div>
       </CardContent>
@@ -83,6 +94,35 @@ function EmptyOverlay() {
         <Icon className="empty-overlay__icon">sentiment_very_dissatisfied</Icon>
       </div>
     </div>
+  );
+}
+
+export interface DetailDialogProps {
+  beer: Beer;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function DetailDialog(props: DetailDialogProps) {
+  const { beer, isOpen, onClose } = props;
+  return (
+    <Dialog onClose={onClose} aria-labelledby="dialog-title" open={isOpen}>
+      <DialogTitle id="dialog-title">
+        <Typography gutterBottom variant="h5" component="h2" align="center">
+          {beer.name}
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <Typography variant="body1" component="p" gutterBottom>
+          {beer.description ? beer.description : "No Description Provided."}
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
