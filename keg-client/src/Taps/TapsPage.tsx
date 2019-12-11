@@ -1,7 +1,7 @@
 import React from 'react';
 import { BeerBlock } from './BeerBlock';
 import Grid from '@material-ui/core/Grid';
-import { TapDescription } from '../ServerModels';
+import { TapDescription, Beer } from '../ServerModels';
 import * as client from '../lib/ApiClient';
 import Chip from '@material-ui/core/Chip';
 import Icon from '@material-ui/core/Icon';
@@ -20,7 +20,7 @@ class TapsPage extends React.Component<any, AppState> {
     super(props);
 
     this.state = {
-      taps: [null, null],
+      taps: { tapLeft: null, tapRight: null },
       temperature: 0,
       ip: '',
     };
@@ -54,6 +54,28 @@ class TapsPage extends React.Component<any, AppState> {
     if (this.socket) this.socket.close();
   }
 
+  async voteHandler(id: string, isUpVote: boolean) {
+    console.log(id + ' ' + isUpVote);
+    let taps = { ...this.state.taps };
+
+    const updatedBeer: Beer = isUpVote ? await client.upVoteBeer(id) : await client.downVoteBeer(id);
+
+    if (taps.tapLeft && taps.tapLeft.beerId === id) {
+      taps.tapLeft = {
+        ...taps.tapLeft,
+        beer: updatedBeer,
+      };
+    } else if (taps.tapRight && taps.tapRight.beerId === id) {
+      taps.tapRight = {
+        ...taps.tapRight,
+        beer: updatedBeer,
+      };
+    }
+
+    this.setState({ taps });
+    return;
+  }
+
   get temperatureStyle() {
     const max = 48; // this or more is pure red
     const min = 42; // this or less is pure green
@@ -67,8 +89,8 @@ class TapsPage extends React.Component<any, AppState> {
 
   render() {
     const taps = this.state.taps;
-    const left = taps[0];
-    const right = taps[1];
+    const left = taps.tapLeft;
+    const right = taps.tapRight;
 
     return (
       <div className="taps-page">
@@ -80,6 +102,7 @@ class TapsPage extends React.Component<any, AppState> {
                   beer={left.beer}
                   tapped={left.tapped}
                   emptied={left.emptied}
+                  voteHandler={this.voteHandler.bind(this)}
                 />
               ) : (
                 <p>No beer</p>
@@ -91,6 +114,7 @@ class TapsPage extends React.Component<any, AppState> {
                   beer={right.beer}
                   tapped={right.tapped}
                   emptied={right.emptied}
+                  voteHandler={this.voteHandler.bind(this)}
                 />
               ) : (
                 <p>No beer</p>

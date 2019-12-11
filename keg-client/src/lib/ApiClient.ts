@@ -11,14 +11,14 @@ export enum SocketEvents {
   refreshBeers = 'refresh',
 }
 
-function post(endpoint: string, body: any) {
+function post(endpoint: string, body?: any) {
   return fetch(endpoint, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
+    body: body ? JSON.stringify(body) : null,
   });
 }
 
@@ -82,6 +82,18 @@ export async function getBeers() {
 
 export async function patchBeer(id: string, payload: Partial<Beer>) {
   const response = await patch(root + '/api/beers/' + id, payload);
+  const beer = (await response.json()) as Beer;
+  return beer;
+}
+
+export async function upVoteBeer(id: string) {
+  const response = await post(root + '/api/beers/' + id + '/upvotes');
+  const beer = (await response.json()) as Beer;
+  return beer;
+}
+
+export async function downVoteBeer(id: string) {
+  const response = await post(root + '/api/beers/' + id + '/downvotes');
   const beer = (await response.json()) as Beer;
   return beer;
 }

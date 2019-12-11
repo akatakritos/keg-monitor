@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { database } from '../persistance/Database';
-import { Tapped, Beer, Tap } from '../models';
+import { Tapped, Beer, Tap, TapDescription } from '../models';
 import { SocketServer } from '../lib/SocketServer';
 
 export async function tap(req: Request, res: Response) {
@@ -37,7 +37,10 @@ export async function getTaps(req: Request, res: Response) {
   const kegs = await Promise.all([database.kegs.get('left'), database.kegs.get('right')]);
   const beers = await Promise.all(kegs.map(k => (k ? database.beers.get(k.beerId) : Promise.resolve(null))));
 
-  const result = [kegs[0] ? { beer: beers[0], ...kegs[0] } : null, kegs[1] ? { beer: beers[1], ...kegs[1] } : null];
+  const result: TapDescription = {
+    tapLeft: kegs[0] ? { beer: beers[0], ...kegs[0] } : null,
+    tapRight: kegs[1] ? { beer: beers[1], ...kegs[1] } : null,
+  };
 
   return res.send(result);
 }

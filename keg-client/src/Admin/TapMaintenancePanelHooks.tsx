@@ -39,8 +39,8 @@ export const TapMaintenancePanelHooks: React.FC<TapMaintenancePanelProps> = prop
 
   const loadTaps = async () => {
     const taps = await getTaps();
-    setLeftTap(taps[0]);
-    setRightTap(taps[1]);
+    setLeftTap(taps.tapLeft);
+    setRightTap(taps.tapRight);
   };
 
   const tapKeg = async (tap: Tap, beerId: string) => {

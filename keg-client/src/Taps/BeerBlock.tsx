@@ -40,7 +40,7 @@ export interface BeerProps {
   beer: Beer;
   tapped: string;
   emptied?: string;
-  //voteHandler: (id: string, isUpVote: boolean) => void;
+  voteHandler: (id: string, isUpVote: boolean) => Promise<void>;
 }
 
 export function BeerBlock(props: BeerProps) {
@@ -60,8 +60,7 @@ export function BeerBlock(props: BeerProps) {
   };
 
   const onVoteButtonClick = (isUpVote: boolean) => {
-    //props.voteHandler(beer._id, isUpVote);
-    console.log(`${beer._id} - ${isUpVote}`);
+    props.voteHandler(beer._id, isUpVote);
   };
 
   return (
@@ -125,7 +124,7 @@ function DetailDialog(props: DetailDialogProps) {
       </DialogTitle>
       <DialogContent>
         <Typography variant="body1" component="p" gutterBottom>
-          {beer.description || "No Description Provided."}
+          {beer.description || 'No Description Provided.'}
         </Typography>
       </DialogContent>
       <DialogActions>

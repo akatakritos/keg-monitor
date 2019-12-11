@@ -24,3 +24,8 @@ export interface KegLog {
   beerId: string;
   isCurrent: boolean;
 }
+
+export interface TapDescription {
+  tapLeft: Tapped | null;
+  tapRight: Tapped | null;
+}
