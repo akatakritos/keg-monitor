@@ -77,13 +77,7 @@ class TapsPage extends React.Component<any, AppState> {
             <Grid item xs>
               {left ? (
                 <BeerBlock
-                  name={left.beer.name}
-                  brewer={left.beer.brewer}
-                  image={left.beer.image}
-                  description={left.beer.description}
-                  bitterness={left.beer.bitterness}
-                  abv={left.beer.abv}
-                  beerStyle={left.beer.style}
+                  beer={left.beer}
                   tapped={left.tapped}
                   emptied={left.emptied}
                 />
@@ -94,13 +88,7 @@ class TapsPage extends React.Component<any, AppState> {
             <Grid item xs>
               {right ? (
                 <BeerBlock
-                  name={right.beer.name}
-                  brewer={right.beer.brewer}
-                  image={right.beer.image}
-                  description={right.beer.description}
-                  bitterness={right.beer.bitterness}
-                  abv={right.beer.abv}
-                  beerStyle={right.beer.style}
+                  beer={right.beer}
                   tapped={right.tapped}
                   emptied={right.emptied}
                 />
