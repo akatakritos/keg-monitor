@@ -25,10 +25,8 @@ export interface EditBeerPanelProps {
   onBeerModified: () => void;
 }
 
-
 const emptyBeer = { name: '', brewer: '', image: '', bitterness: 0, abv: 0, style: '', description: '' };
 export function EditBeerPanelHooks(props: EditBeerPanelProps) {
-  useReducer
   const [id, setId] = useState('new');
   const [name, setName] = useState('');
   const [brewer, setBrewer] = useState('');
