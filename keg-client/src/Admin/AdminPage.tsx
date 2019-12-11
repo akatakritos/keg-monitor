@@ -2,10 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Container from '@material-ui/core/Container';
 
 import './AdminPage.css';
-import { EditBeerPanel } from './EditBeerPanel';
 import { Beer } from '../ServerModels';
 import { getBeers } from '../lib/ApiClient';
-import { TapMaintenancePanel } from './TapMaintenancePanel';
 import { TapMaintenancePanelHooks } from './TapMaintenancePanelHooks';
 import { EditBeerPanelHooks } from './EditBeerPanelHooks';
 
@@ -26,8 +24,8 @@ export class AdminPage extends React.Component<any, AdminPageState> {
     return (
       <Container>
         <h1>Admin Page</h1>
-        <EditBeerPanel beers={this.state.beers} onBeerModified={this.handleBeerModified} />
-        <TapMaintenancePanel beers={this.state.beers} />
+        <EditBeerPanelHooks beers={this.state.beers} onBeerModified={this.handleBeerModified} />
+        <TapMaintenancePanelHooks beers={this.state.beers} />
       </Container>
     );
   }
