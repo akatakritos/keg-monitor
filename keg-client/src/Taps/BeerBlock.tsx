@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Beer } from '../ServerModels';
 import Button from '@material-ui/core/Button';
@@ -39,6 +40,7 @@ export interface BeerProps {
   beer: Beer;
   tapped: string;
   emptied?: string;
+  //voteHandler: (id: string, isUpVote: boolean) => void;
 }
 
 export function BeerBlock(props: BeerProps) {
@@ -55,6 +57,11 @@ export function BeerBlock(props: BeerProps) {
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+  };
+
+  const onVoteButtonClick = (isUpVote: boolean) => {
+    //props.voteHandler(beer._id, isUpVote);
+    console.log(`${beer._id} - ${isUpVote}`);
   };
 
   return (
@@ -78,9 +85,13 @@ export function BeerBlock(props: BeerProps) {
           ) : null}
           {beer.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={beer.bitterness.toFixed(1) + ' IBU'} /> : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
+          <Chip icon={<Icon>thumb_up</Icon>} label={beer.upvotes ? beer.upvotes : 0} />
+          <Chip icon={<Icon>thumb_down</Icon>} label={beer.downvotes ? beer.downvotes : 0} />
         </div>
       </CardContent>
-      <CardActions></CardActions>
+      <CardActions>
+        <VoteButtons onClick={onVoteButtonClick} />
+      </CardActions>
     </Card>
   );
 }
@@ -126,19 +137,31 @@ function DetailDialog(props: DetailDialogProps) {
   );
 }
 
-// function VoteButtons() {
-//   const classes = useStyles();
+export interface VoteButtonsProps {
+  onClick: (isUpVote: boolean) => void;
+}
 
-//   return (
-//     <React.Fragment>
-//       <Button size="small" color="primary" variant="contained" className={classes.button}>
-//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
-//         Great!
-//       </Button>
-//       <Button size="small" color="secondary" variant="contained" className={classes.button}>
-//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
-//         Meh.
-//       </Button>
-//     </React.Fragment>
-//   );
-// }
+function VoteButtons(props: VoteButtonsProps) {
+  const classes = useStyles();
+
+  const handleUpVote = () => {
+    props.onClick(true);
+  };
+
+  const handleDownVote = () => {
+    props.onClick(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button size="small" color="primary" variant="contained" className={classes.button} onClick={handleUpVote}>
+        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
+        Great
+      </Button>
+      <Button size="small" color="secondary" variant="contained" className={classes.button} onClick={handleDownVote}>
+        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
+        Meh
+      </Button>
+    </React.Fragment>
+  );
+}
