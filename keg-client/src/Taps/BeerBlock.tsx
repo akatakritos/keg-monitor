@@ -84,13 +84,25 @@ export function BeerBlock(props: BeerProps) {
           ) : null}
           {beer.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={beer.bitterness.toFixed(1) + ' IBU'} /> : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
-          <Chip icon={<Icon>thumb_up</Icon>} label={beer.upvotes ? beer.upvotes : 0} />
-          <Chip icon={<Icon>thumb_down</Icon>} label={beer.downvotes ? beer.downvotes : 0} />
+          <Chip
+            icon={<Icon>thumb_up</Icon>}
+            label={beer.upvotes ? beer.upvotes : 0}
+            onClick={() => onVoteButtonClick(true)}
+            style={{ backgroundColor: 'green' }}
+            color="secondary"
+          />
+          <Chip
+            icon={<Icon>thumb_down</Icon>}
+            label={beer.downvotes ? beer.downvotes : 0}
+            onClick={() => onVoteButtonClick(false)}
+            style={{ backgroundColor: 'red' }}
+            color="secondary"
+          />
         </div>
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <VoteButtons onClick={onVoteButtonClick} />
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }
@@ -140,6 +152,7 @@ export interface VoteButtonsProps {
   onClick: (isUpVote: boolean) => void;
 }
 
+// Changed Chips to be clickable due to real estate restrictions
 function VoteButtons(props: VoteButtonsProps) {
   const classes = useStyles();
 
