@@ -55,7 +55,6 @@ class TapsPage extends React.Component<any, AppState> {
   }
 
   async voteHandler(id: string, isUpVote: boolean) {
-    console.log(id + ' ' + isUpVote);
     let taps = { ...this.state.taps };
 
     const updatedBeer: Beer = isUpVote ? await client.upVoteBeer(id) : await client.downVoteBeer(id);
