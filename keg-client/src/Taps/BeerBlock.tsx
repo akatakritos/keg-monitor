@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Beer } from '../ServerModels';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
 import Dialog from '@material-ui/core/Dialog';
@@ -71,10 +70,10 @@ export function BeerBlock(props: BeerProps) {
       </div>
       <DetailDialog beer={beer} isOpen={isDialogOpen} onClose={handleDialogClose} />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography variant="h5" component="h2">
           {beer.name}
         </Typography>
-        <Typography variant="body2" component="p">
+        <Typography gutterBottom variant="body2" component="p">
           {beer.brewer}
         </Typography>
         <div>
@@ -88,21 +87,18 @@ export function BeerBlock(props: BeerProps) {
             icon={<Icon>thumb_up</Icon>}
             label={beer.upvotes ? beer.upvotes : 0}
             onClick={() => onVoteButtonClick(true)}
-            style={{ backgroundColor: 'green' }}
+            style={{ backgroundColor: '#40BF40' }}
             color="secondary"
           />
           <Chip
             icon={<Icon>thumb_down</Icon>}
             label={beer.downvotes ? beer.downvotes : 0}
             onClick={() => onVoteButtonClick(false)}
-            style={{ backgroundColor: 'red' }}
+            style={{ backgroundColor: '#BF4040' }}
             color="secondary"
           />
         </div>
       </CardContent>
-      {/* <CardActions>
-        <VoteButtons onClick={onVoteButtonClick} />
-      </CardActions> */}
     </Card>
   );
 }
@@ -152,28 +148,28 @@ export interface VoteButtonsProps {
   onClick: (isUpVote: boolean) => void;
 }
 
-// Changed Chips to be clickable due to real estate restrictions
-function VoteButtons(props: VoteButtonsProps) {
-  const classes = useStyles();
+// Changed Chips to be clickable due to real-estate restrictions
+// function VoteButtons(props: VoteButtonsProps) {
+//   const classes = useStyles();
 
-  const handleUpVote = () => {
-    props.onClick(true);
-  };
+//   const handleUpVote = () => {
+//     props.onClick(true);
+//   };
 
-  const handleDownVote = () => {
-    props.onClick(false);
-  };
+//   const handleDownVote = () => {
+//     props.onClick(false);
+//   };
 
-  return (
-    <React.Fragment>
-      <Button size="small" color="primary" variant="contained" className={classes.button} onClick={handleUpVote}>
-        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
-        Great
-      </Button>
-      <Button size="small" color="secondary" variant="contained" className={classes.button} onClick={handleDownVote}>
-        <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
-        Meh
-      </Button>
-    </React.Fragment>
-  );
-}
+//   return (
+//     <React.Fragment>
+//       <Button size="small" color="primary" variant="contained" className={classes.button} onClick={handleUpVote}>
+//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
+//         Great
+//       </Button>
+//       <Button size="small" color="secondary" variant="contained" className={classes.button} onClick={handleDownVote}>
+//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
+//         Meh
+//       </Button>
+//     </React.Fragment>
+//   );
+// }
