@@ -66,8 +66,8 @@ export function BeerBlock(props: BeerProps) {
   const tapped = parseISO(props.tapped);
   const age = differenceInDays(today, tapped);
   const beer = props.beer;
-  const upVotes = beer.upvotes ? beer.upvotes : 0;
-  const downVotes = beer.downvotes ? beer.downvotes : 0;
+  const upVotes = beer.upvotes || 0;
+  const downVotes = beer.downvotes || 0;
   const [isDialogOpen, setDialogOpen] = React.useState(false);
 
   const handleDialogOpen = () => {
