@@ -53,14 +53,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export interface BeerProps {
+export interface BeerBlockProps {
   beer: Beer;
   tapped: string;
   emptied?: string;
   voteHandler: (id: string, isUpVote: boolean) => Promise<void>;
 }
 
-export function BeerBlock(props: BeerProps) {
+export function BeerBlock(props: BeerBlockProps) {
   const classes = useStyles();
   const today = new Date();
   const tapped = parseISO(props.tapped);
