@@ -54,7 +54,7 @@ class TapsPage extends React.Component<any, AppState> {
     if (this.socket) this.socket.close();
   }
 
-  async voteHandler(id: string, isUpVote: boolean) {
+  voteHandler = async (id: string, isUpVote: boolean) => {
     let taps = { ...this.state.taps };
 
     const updatedBeer: Beer = isUpVote ? await client.upVoteBeer(id) : await client.downVoteBeer(id);
@@ -73,7 +73,7 @@ class TapsPage extends React.Component<any, AppState> {
 
     this.setState({ taps });
     return;
-  }
+  };
 
   get temperatureStyle() {
     const max = 48; // this or more is pure red
@@ -101,7 +101,7 @@ class TapsPage extends React.Component<any, AppState> {
                   beer={left.beer}
                   tapped={left.tapped}
                   emptied={left.emptied}
-                  voteHandler={this.voteHandler.bind(this)}
+                  voteHandler={this.voteHandler}
                 />
               ) : (
                 <p>No beer</p>
@@ -113,7 +113,7 @@ class TapsPage extends React.Component<any, AppState> {
                   beer={right.beer}
                   tapped={right.tapped}
                   emptied={right.emptied}
-                  voteHandler={this.voteHandler.bind(this)}
+                  voteHandler={this.voteHandler}
                 />
               ) : (
                 <p>No beer</p>
