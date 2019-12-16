@@ -1,10 +1,12 @@
 # Keg Maintenance Screen
 
+![](pics/keg-monitor.jpg)
+
 This little application is made from two projects:
 
-* `keg-server`: An express.js server that manages the state of the current beers
+- `keg-server`: An express.js server that manages the state of the current beers
   and monitors temperature
-* `keg-client`: A React application that displays the current beers and allows
+- `keg-client`: A React application that displays the current beers and allows
   an admin to manage them
 
 ## Getting started
@@ -17,7 +19,7 @@ This little application is made from two projects:
 
 Inside of the `keg-server` folder, run `npm run watch`. This will watch the
 directory for changes, recompile the typescript, and restart the express serer
-when anything changes. (Note: You may need to start the server from an 
+when anything changes. (Note: You may need to start the server from an
 elevated command prompt to avoid write permission issues.)
 
 The routes are listed in `app.ts`.
@@ -65,12 +67,11 @@ This will compile the application into the `dist` folder.
 
 Copy the dist folder contents and the public folder to the pi: `~/keg`
 
-
 ## Starting the Pi
 
 1. ssh to pi
 2. run `~/clear-chrome-cache.sh`
-2. Open screen
-3. In one tab: `npm run start-prod` in `~/keg`
-3. In one tab: `startx`
-4. Disconnect and leave screen running
+3. Open screen
+4. In one tab: `npm run start-prod` in `~/keg`
+5. In one tab: `startx`
+6. Disconnect and leave screen running
