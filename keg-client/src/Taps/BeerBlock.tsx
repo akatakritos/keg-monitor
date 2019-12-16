@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Beer } from '../ServerModels';
+import { VoteButtons } from './VoteButtons';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,35 +19,33 @@ import './BeerBlock.css';
 
 const useStyles = makeStyles(theme => ({
   card: {},
-  button: {
-    margin: theme.spacing(1),
-  },
-  leftIcon: {
-    marginRight: theme.spacing(1),
-  },
-  rightIcon: {
-    marginLeft: theme.spacing(1),
-  },
-  iconSmall: {
-    fontSize: 20,
-  },
   centered: {
     textAlign: 'center',
   },
+  beerName: {
+    flexGrow: 1,
+  },
+  chip: {
+    marginRight: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
+  },
 }));
 
-export interface BeerProps {
+export interface BeerBlockProps {
   beer: Beer;
   tapped: string;
   emptied?: string;
+  voteHandler: (id: string, isUpVote: boolean) => Promise<void>;
 }
 
-export function BeerBlock(props: BeerProps) {
+export function BeerBlock(props: BeerBlockProps) {
   const classes = useStyles();
   const today = new Date();
   const tapped = parseISO(props.tapped);
   const age = differenceInDays(today, tapped);
   const beer = props.beer;
+  const upVotes = beer.upvotes || 0;
+  const downVotes = beer.downvotes || 0;
   const [isDialogOpen, setDialogOpen] = React.useState(false);
 
   const handleDialogOpen = () => {
@@ -57,6 +56,10 @@ export function BeerBlock(props: BeerProps) {
     setDialogOpen(false);
   };
 
+  const onVoteButtonClick = (isUpVote: boolean) => {
+    props.voteHandler(beer._id, isUpVote);
+  };
+
   return (
     <Card className={classes.card} style={{ position: 'relative' }}>
       {props.emptied ? <EmptyOverlay /> : null}
@@ -65,22 +68,30 @@ export function BeerBlock(props: BeerProps) {
       </div>
       <DetailDialog beer={beer} isOpen={isDialogOpen} onClose={handleDialogClose} />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {beer.name}
-        </Typography>
-        <Typography variant="body2" component="p">
+        <Box display="flex" flexWrap="nowrap">
+          <Typography variant="h5" component="h2" className={classes.beerName}>
+            {beer.name}
+          </Typography>
+          <VoteButtons onClick={onVoteButtonClick} upVotes={upVotes} downVotes={downVotes} />
+        </Box>
+        <Typography gutterBottom variant="body2" component="p">
           {beer.brewer}
         </Typography>
-        <div>
-          {beer.style ? <Chip icon={<Icon>local_drink</Icon>} label={beer.style} /> : null}
+        <Box>
+          {beer.style ? <Chip icon={<Icon>local_drink</Icon>} label={beer.style} className={classes.chip} /> : null}
           {beer.abv ? (
-            <Chip icon={<Icon>sentiment_very_satisfied</Icon>} label={beer.abv.toFixed(1) + '% ABV'} />
+            <Chip
+              icon={<Icon>sentiment_very_satisfied</Icon>}
+              label={beer.abv.toFixed(1) + '% ABV'}
+              className={classes.chip}
+            />
           ) : null}
-          {beer.bitterness ? <Chip icon={<Icon>mood_bad</Icon>} label={beer.bitterness.toFixed(1) + ' IBU'} /> : null}
+          {beer.bitterness ? (
+            <Chip icon={<Icon>mood_bad</Icon>} label={beer.bitterness.toFixed(1) + ' IBU'} className={classes.chip} />
+          ) : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
-        </div>
+        </Box>
       </CardContent>
-      <CardActions></CardActions>
     </Card>
   );
 }
@@ -114,7 +125,7 @@ function DetailDialog(props: DetailDialogProps) {
       </DialogTitle>
       <DialogContent>
         <Typography variant="body1" component="p" gutterBottom>
-          {beer.description ? beer.description : "No Description Provided."}
+          {beer.description || 'No Description Provided.'}
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -125,20 +136,3 @@ function DetailDialog(props: DetailDialogProps) {
     </Dialog>
   );
 }
-
-// function VoteButtons() {
-//   const classes = useStyles();
-
-//   return (
-//     <React.Fragment>
-//       <Button size="small" color="primary" variant="contained" className={classes.button}>
-//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_up</Icon>
-//         Great!
-//       </Button>
-//       <Button size="small" color="secondary" variant="contained" className={classes.button}>
-//         <Icon className={clsx(classes.leftIcon, classes.iconSmall)}>thumb_down</Icon>
-//         Meh.
-//       </Button>
-//     </React.Fragment>
-//   );
-// }

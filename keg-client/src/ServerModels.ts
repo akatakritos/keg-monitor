@@ -25,7 +25,10 @@ export interface KegLog {
   isCurrent: boolean;
 }
 
-export type TapDescription = [Tapped | null, Tapped | null];
+export interface TapDescription {
+  tapLeft: Tapped | null;
+  tapRight: Tapped | null;
+}
 
 export interface Metadata {
   ip: string;
