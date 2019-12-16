@@ -19,12 +19,6 @@ import './BeerBlock.css';
 
 const useStyles = makeStyles(theme => ({
   card: {},
-  leftIcon: {
-    marginRight: theme.spacing(1),
-  },
-  iconSmall: {
-    fontSize: 20,
-  },
   centered: {
     textAlign: 'center',
   },
