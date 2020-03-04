@@ -1,7 +1,3 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Beer } from '../ServerModels';
-import { VoteButtons } from './VoteButtons';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -12,10 +8,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Icon from '@material-ui/core/Icon';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import parseISO from 'date-fns/parseISO';
 import differenceInDays from 'date-fns/differenceInDays';
+import parseISO from 'date-fns/parseISO';
+import React from 'react';
+import HopIcon from '../hop_icon.png';
+import { Beer } from '../ServerModels';
 import './BeerBlock.css';
+import { VoteButtons } from './VoteButtons';
 
 const useStyles = makeStyles(theme => ({
   card: {},
@@ -28,6 +29,9 @@ const useStyles = makeStyles(theme => ({
   chip: {
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
+  },
+  hop: {
+    width: '25px',
   },
 }));
 
@@ -87,7 +91,11 @@ export function BeerBlock(props: BeerBlockProps) {
             />
           ) : null}
           {beer.bitterness ? (
-            <Chip icon={<Icon>mood_bad</Icon>} label={beer.bitterness.toFixed(1) + ' IBU'} className={classes.chip} />
+            <Chip
+              icon={<img className={classes.hop} src={HopIcon} />}
+              label={beer.bitterness.toFixed(1) + ' IBU'}
+              className={classes.chip}
+            />
           ) : null}
           <Chip icon={<Icon>today</Icon>} label={age + ' days ago'} />
         </Box>
