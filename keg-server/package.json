@@ -31,7 +31,7 @@
     "@types/errorhandler": "0.0.32",
     "@types/express": "^4.17.1",
     "@types/nedb": "^1.8.11",
-    "@types/socket.io": "^2.1.2",
+    "@types/socket.io": "^2.1.13",
     "@types/uuid": "^3.4.5",
     "@types/winston": "^2.4.4",
     "concurrently": "^4.1.2",
