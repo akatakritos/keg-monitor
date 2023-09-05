@@ -27,7 +27,7 @@
     "winston-daily-rotate-file": "^3.10.0"
   },
   "devDependencies": {
-    "@types/compression": "^1.0.1",
+    "@types/compression": "^1.7.3",
     "@types/errorhandler": "0.0.32",
     "@types/express": "^4.17.12",
     "@types/nedb": "^1.8.11",
